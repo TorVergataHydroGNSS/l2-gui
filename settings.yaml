@@ -1,0 +1,170 @@
+'L2PP-SM':
+  execFolder: ''
+  execName: 'SML2PP_start.exe'
+  argsTemplate: '-input {in} {out} {aux} {y} {m} {d} {nd} {res} {sig} {pol}'
+  inputs:
+    - 
+      id: 'in'
+      label: 'InputDirectory'
+      type: 'dir'
+      last: ''
+    - 
+      id: 'out'
+      label: 'OutputDirectory' 
+      type: 'dir'
+      last: ''
+    - 
+      id: 'aux'
+      label: 'AuxiliaryDataDirectory' 
+      type: 'dir'
+      last: ''
+    - 
+      id: 'y'
+      label: 'year' 
+      type: 'number'
+      last: ''
+    - 
+      id: 'm'
+      label: 'month' 
+      type: 'number'
+      last: ''
+    - 
+      id: 'd'
+      label: 'day' 
+      type: 'number'
+      last: ''
+    - 
+      id: 'nd'
+      label: 'NumberOfDay' 
+      type: 'number'
+      last: ''
+    - 
+      id: 'res'
+      label: 'resolution' 
+      type: 'number'
+      last: ''
+    - 
+      id: 'sig'
+      label: 'signal' 
+      type: 'text'
+      last: ''
+    - 
+      id: 'pol'
+      label: 'polarization' 
+      type: 'text'
+      last: ''
+'L2PP-FB':
+  execFolder: ''
+  execName: 'L2PP_FB.exe'
+  argsTemplate: '{dt} {root}'
+  inputs:
+    - 
+      id: 'dt'
+      label: 'Selected date'
+      type: 'text'
+      last: ''
+    - 
+      id: 'root'
+      label: 'InputDirectory'
+      type: 'dir'
+      last: ''
+'L2PP-SI':
+  execFolder: ''
+  execName: 'L2_PSR.exe'
+  argsTemplate: '-D {ddm} -M {meta} -R {res}'
+  inputs:
+    - 
+      id: 'ddm'
+      label: 'DDMs File Path'
+      type: 'file'
+      last: ''
+    - 
+      id: 'meta'
+      label: 'Metadata L1/L1b File Path'
+      type: 'file'
+      last: ''
+    - 
+      id: 'res'
+      label: 'Result File Path'
+      type: 'text'
+      last: ''
+'L2PP-FT':
+  execFolder: ''
+  execName: 'L2OPFT_mainscript.exe'
+  argsTemplate: ''
+  inputs:
+    - 
+      id: 'cmd_saga'
+      label: 'commandsaga'
+      type: 'dir'
+      last: ''
+    - 
+      id: 'p_L1b'
+      label: 'paths.L1b' 
+      type: 'dir'
+      last: ''
+    - 
+      id: 'p_L2FT'
+      label: 'paths.L2FT' 
+      type: 'dir'
+      last: ''
+    - 
+      id: 'p_aux'
+      label: 'paths.Auxiliary' 
+      type: 'dir'
+      last: ''
+    - 
+      id: 'f_lnd'
+      label: 'files.LandCover' 
+      type: 'text'
+      last: 'CCI_LC_2018_EASE2_300m.sg-grd'
+    - 
+      id: 'f_L1b'
+      label: 'files.L1bfile' 
+      type: 'text'
+      last: 'metadata_L1_merged.nc'
+    - 
+      id: 'sdt'
+      label: 'startdate' 
+      type: 'text'
+      last: 'datenum(2018,08,18)'
+    - 
+      id: 'edt'
+      label: 'enddate' 
+      type: 'text'
+      last: 'datenum(2018,08,18)'
+  setupTemplate: |
+    % This is setup file to define paths and variables for 
+    % L2OP FT module
+
+    % Common paths required for gdal and saga 
+
+    commandgdal = 'C:\"Program Files (x86)"\GDAL\'; % GDAL directory for GDAL command 
+    envirogdal = 'C:\Program Files (x86)\GDAL\gdal-data'; % GDAL enviromental varaible path
+    commandsaga = '{cmd_saga}'; % OK
+
+    % Follwing will be needed later for operational processor to download latest snow extent data
+    % sidadscoloradoedu = 'ftp://sidads.colorado.edu/DATASETS/NOAA/G02156/GIS/4km/';
+    % wwwnaticenoaa = 'https://www.natice.noaa.gov/pub/ims/ims_v3/imstif/4km/';
+
+    paths.L1b = '{p_L1b}';
+    paths.L2FT = '{p_L2FT}';
+    paths.Auxiliary = '{p_aux}';
+
+    files.LandCover = '{f_lnd}';
+
+    % This is for testing purposes
+    files.L1bfile = '{f_L1b}';
+
+    startdate = {sdt};
+    enddate = {edt};
+
+    % Parameters
+    % Footprint radius in meters
+    buf_r = '5000';
+    % Minimum latitude to be included
+    minlat = 45;
+    % maximum open water fraction allowed (LC210)
+    maxwater = 0.1;
+    % maximum incidence angle allowed
+    maxincangle = 40;

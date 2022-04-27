@@ -4,4 +4,5 @@ pycodestyle==2.8.0
 pyinstaller==5.0
 pyinstaller-hooks-contrib==2022.4
 pyperclip==1.8.2
+PyYAML==6.0
 toml==0.10.2
